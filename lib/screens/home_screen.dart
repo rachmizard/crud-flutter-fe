@@ -35,9 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(authStore.isAuthenticated
-                ? 'Welcome ${authStore.token}'
-                : 'Home'),
+            Text(authStore.isAuthenticated ? 'Welcome' : 'Home'),
           ],
         ),
       ),

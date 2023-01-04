@@ -3,8 +3,15 @@ import 'package:frontend/stores/auth_store.dart';
 import 'package:frontend/ui/auth/login_form_ui.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +20,24 @@ class LoginScreen extends StatelessWidget {
     final snackbar = ScaffoldMessenger.of(context);
 
     login(String email, String password) async {
-      snackbar.showSnackBar(
-        const SnackBar(
-          content: Text('Processing Data'),
-        ),
-      );
-      await authStore.login(email, password);
-      snackbar.hideCurrentSnackBar();
-      navigator.pushNamedAndRemoveUntil("/", (route) => false);
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+
+        await authStore.login(email, password);
+        navigator.pushNamedAndRemoveUntil("/", (route) => false);
+      } catch (e) {
+        snackbar.showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+          ),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
 
     return Scaffold(
@@ -44,6 +61,7 @@ class LoginScreen extends StatelessWidget {
             ),
             LoginFormUI(
               onSubmitted: login,
+              isLoading: _isLoading,
             )
           ]),
         ),

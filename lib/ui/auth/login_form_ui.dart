@@ -4,10 +4,12 @@ typedef OnSubmitted = Future<void> Function(String email, String password);
 
 class LoginFormUI extends StatefulWidget {
   final OnSubmitted onSubmitted;
+  final bool isLoading;
 
   const LoginFormUI({
     Key? key,
     required this.onSubmitted,
+    required this.isLoading,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class _LoginFormUIState extends State<LoginFormUI> {
           children: [
             TextFormField(
               controller: _emailController,
+              enabled: !widget.isLoading,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
@@ -54,6 +57,7 @@ class _LoginFormUIState extends State<LoginFormUI> {
             const SizedBox(height: 20),
             TextFormField(
               controller: _passwordController,
+              enabled: !widget.isLoading,
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
@@ -62,6 +66,11 @@ class _LoginFormUIState extends State<LoginFormUI> {
                 if (value!.isEmpty) {
                   return 'Please enter your password';
                 }
+
+                if (value.length < 6) {
+                  return 'Password must be at least 6 characters';
+                }
+
                 return null;
               },
             ),
@@ -70,6 +79,8 @@ class _LoginFormUIState extends State<LoginFormUI> {
               children: [
                 ElevatedButton(
                   onPressed: () {
+                    if (widget.isLoading) return;
+
                     if (_formKey.currentState!.validate()) {
                       widget.onSubmitted(
                         _emailController.text,
@@ -77,7 +88,9 @@ class _LoginFormUIState extends State<LoginFormUI> {
                       );
                     }
                   },
-                  child: const Text('Login'),
+                  child: widget.isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text('Login'),
                 ),
                 const SizedBox(
                   height: 20,
