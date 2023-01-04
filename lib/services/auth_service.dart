@@ -75,8 +75,6 @@ class AuthService extends RequestAdapterService {
 
       var data = jsonDecode(response.body);
 
-      print("data $data");
-
       return UserModel.fromJson(data["user"]);
     } catch (e) {
       print("error: $e");

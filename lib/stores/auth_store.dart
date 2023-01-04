@@ -32,7 +32,7 @@ class AuthStore with ChangeNotifier, DiagnosticableTreeMixin {
       _isAuthenticated = true;
       _token = response.token;
 
-      setTokenSharedPrefs("token");
+      setTokenSharedPrefs(response.token);
       setIsAuthenticatedSharedPrefs(true);
 
       return response;
@@ -54,7 +54,7 @@ class AuthStore with ChangeNotifier, DiagnosticableTreeMixin {
       _isAuthenticated = true;
       _token = response.token;
 
-      setTokenSharedPrefs('token');
+      setTokenSharedPrefs(response.token);
       setIsAuthenticatedSharedPrefs(true);
 
       notifyListeners();
