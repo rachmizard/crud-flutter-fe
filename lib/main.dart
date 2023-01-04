@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/stores/auth_store.dart';
+import 'package:frontend/stores/profile_store.dart';
 import 'package:frontend/utils/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => AuthStore(),
         ),
+        ChangeNotifierProvider(create: ((context) => ProfileStore()))
       ],
       child: const MyApp(),
     ),

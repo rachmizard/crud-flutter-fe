@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/stores/auth_store.dart';
+import 'package:frontend/stores/profile_store.dart';
 import 'package:frontend/ui/auth/login_form_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthStore>(context, listen: false);
+    final profileStore = Provider.of<ProfileStore>(context, listen: false);
+
     final navigator = Navigator.of(context);
     final snackbar = ScaffoldMessenger.of(context);
 
@@ -25,7 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = true;
         });
 
-        await authStore.login(email, password);
+        final loginResponse = await authStore.login(email, password);
+        await profileStore.getProfile(loginResponse.token);
+
         navigator.pushNamedAndRemoveUntil("/", (route) => false);
       } catch (e) {
         snackbar.showSnackBar(

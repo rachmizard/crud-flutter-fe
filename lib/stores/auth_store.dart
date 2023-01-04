@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:frontend/models/token_model.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +25,7 @@ class AuthStore with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  Future<void> login(String email, String password) async {
+  Future<TokenModel> login(String email, String password) async {
     try {
       final response = await authService.login(email, password);
 
@@ -33,6 +34,8 @@ class AuthStore with ChangeNotifier, DiagnosticableTreeMixin {
 
       setTokenSharedPrefs("token");
       setIsAuthenticatedSharedPrefs(true);
+
+      return response;
     } catch (e) {
       rethrow;
     } finally {

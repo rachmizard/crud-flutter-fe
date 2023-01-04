@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:frontend/models/token_model.dart';
+import 'package:frontend/models/user_model.dart';
 import 'package:frontend/services/request_adapter_service.dart';
 
 class AuthService extends RequestAdapterService {
@@ -8,7 +9,7 @@ class AuthService extends RequestAdapterService {
     try {
       final response = await super.sendPostRequest(
         '/api/auth/signin',
-        {
+        body: {
           'email': email,
           'password': password,
         },
@@ -26,6 +27,31 @@ class AuthService extends RequestAdapterService {
     } catch (e) {
       print("error: $e");
       throw Exception('AuthService:login ${e.toString()}');
+    }
+  }
+
+  Future<UserModel> getProfile(String token) async {
+    try {
+      final response = await super.sendPostRequest('/api/auth/me', headers: {
+        'Authorization': token,
+      });
+
+      if (response.statusCode != 200) {
+        Map<String, dynamic> error = json.decode(response.body);
+
+        String errorMessage = error['message'];
+
+        return Future.error(errorMessage);
+      }
+
+      var data = jsonDecode(response.body);
+
+      print("data $data");
+
+      return UserModel.fromJson(data["user"]);
+    } catch (e) {
+      print("error: $e");
+      throw Exception('AuthService:getProfile ${e.toString()}');
     }
   }
 }

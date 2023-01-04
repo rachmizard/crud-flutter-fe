@@ -1,5 +1,5 @@
 class UserModel {
-  final String id;
+  final int id;
   final String name;
   final String email;
   final String updatedAt;
@@ -47,7 +47,7 @@ class UserModel {
   }
 
   UserModel copyWith({
-    String? id,
+    int? id,
     String? name,
     String? email,
     String? updatedAt,

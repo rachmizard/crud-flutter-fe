@@ -11,9 +11,10 @@ class RequestAdapterService {
     return response;
   }
 
-  Future<http.Response> sendPostRequest(
-      String url, Map<String, dynamic>? body) async {
-    final response = await _httpClient.post(Uri.http(baseURL, url), body: body);
+  Future<http.Response> sendPostRequest(String url,
+      {Map<String, dynamic>? body, Map<String, String>? headers}) async {
+    final response = await _httpClient.post(Uri.http(baseURL, url),
+        body: body, headers: headers);
 
     return response;
   }

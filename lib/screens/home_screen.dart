@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/stores/auth_store.dart';
+import 'package:frontend/stores/profile_store.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,7 +13,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final authStore = Provider.of<AuthStore>(context);
+    final authStore = context.read<AuthStore>();
+    final profileStore = context.watch<ProfileStore>();
     final navigator = Navigator.of(context);
 
     return Scaffold(
@@ -35,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(authStore.isAuthenticated ? 'Welcome' : 'Home'),
+            Text(authStore.isAuthenticated
+                ? 'Welcome ${profileStore.user?.email}'
+                : 'Home'),
           ],
         ),
       ),

@@ -25,9 +25,7 @@ class RegisterScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: null,
-        automaticallyImplyLeading: false,
-        title: const Text('Login'),
+        title: const Text('Register'),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
