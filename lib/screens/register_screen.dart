@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         scrollDirection: Axis.vertical,
         child: Center(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 80),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 80),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text(

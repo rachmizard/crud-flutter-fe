@@ -53,13 +53,14 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(80),
+          padding: const EdgeInsets.all(10),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Text(
               'Login to Product Inventory Apps',
               style: TextStyle(
                 fontSize: 30,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 20,
