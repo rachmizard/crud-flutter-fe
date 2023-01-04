@@ -5,9 +5,11 @@ typedef OnSubmitted = Future<void> Function(
 
 class RegisterFormUI extends StatefulWidget {
   final OnSubmitted onSubmitted;
+  final bool isLoading;
 
   const RegisterFormUI({
     Key? key,
+    required this.isLoading,
     required this.onSubmitted,
   }) : super(key: key);
 
@@ -37,6 +39,7 @@ class _LoginFormUIState extends State<RegisterFormUI> {
         child: Column(
           children: [
             TextFormField(
+              enabled: !widget.isLoading,
               controller: _nameController,
               decoration: const InputDecoration(
                 labelText: 'Name',
@@ -55,6 +58,7 @@ class _LoginFormUIState extends State<RegisterFormUI> {
             ),
             const SizedBox(height: 20),
             TextFormField(
+              enabled: !widget.isLoading,
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
@@ -73,6 +77,7 @@ class _LoginFormUIState extends State<RegisterFormUI> {
             ),
             const SizedBox(height: 20),
             TextFormField(
+              enabled: !widget.isLoading,
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
@@ -88,6 +93,8 @@ class _LoginFormUIState extends State<RegisterFormUI> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                if (widget.isLoading) return;
+
                 if (_formKey.currentState!.validate()) {
                   widget.onSubmitted(
                     _nameController.text,
@@ -96,7 +103,9 @@ class _LoginFormUIState extends State<RegisterFormUI> {
                   );
                 }
               },
-              child: const Text('Register Now'),
+              child: widget.isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text('Register Now'),
             ),
             const SizedBox(
               height: 20,

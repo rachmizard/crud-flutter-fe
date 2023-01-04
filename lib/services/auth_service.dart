@@ -23,7 +23,36 @@ class AuthService extends RequestAdapterService {
         return Future.error(errorMessage);
       }
 
-      return TokenModel.fromJson(jsonDecode(response.body));
+      return TokenModel.fromJson(json.decode(response.body));
+    } catch (e) {
+      print("error: $e");
+      throw Exception('AuthService:login ${e.toString()}');
+    }
+  }
+
+  Future<TokenModel> register(
+      {required String name,
+      required String email,
+      required String password}) async {
+    try {
+      final response = await super.sendPostRequest(
+        '/api/auth/signup',
+        body: {
+          'name': name,
+          'email': email,
+          'password': password,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        Map<String, dynamic> error = json.decode(response.body);
+
+        String errorMessage = error['message'];
+
+        return Future.error(errorMessage);
+      }
+
+      return TokenModel.fromJson(json.decode(response.body));
     } catch (e) {
       print("error: $e");
       throw Exception('AuthService:login ${e.toString()}');

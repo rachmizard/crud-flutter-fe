@@ -43,18 +43,23 @@ class AuthStore with ChangeNotifier, DiagnosticableTreeMixin {
     }
   }
 
-  Future<void> register(
+  Future<TokenModel> register(
       {required String email,
       required String password,
       required String name}) async {
     try {
+      final response = await authService.register(
+          email: email, password: password, name: name);
+
       _isAuthenticated = true;
-      _token = 'token';
+      _token = response.token;
 
       setTokenSharedPrefs('token');
       setIsAuthenticatedSharedPrefs(true);
 
       notifyListeners();
+
+      return response;
     } catch (e) {
       throw UnimplementedError("Error: $e");
     }
