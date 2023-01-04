@@ -16,9 +16,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final productService = ProductService();
 
+  Future<List<ProductModel>> _products = Future.value([]);
+
   @override
   void initState() {
     super.initState();
+    fetchProducts();
+  }
+
+  fetchProducts() async {
+    var products = await productService.getProducts();
+
+    setState(() {
+      _products = Future.value(products);
+    });
   }
 
   @override
@@ -30,16 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final navigator = Navigator.of(context);
 
-    Future<List<ProductModel>> fetchProducts() async {
+    Future<void> onRefresh() async {
       try {
-        return await productService.getProducts();
+        fetchProducts();
       } catch (e) {
         snackbar.showSnackBar(
           SnackBar(
             content: Text(e.toString()),
           ),
         );
-        return [];
       }
     }
 
@@ -77,6 +87,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         title: const Text('Products'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          navigator.pushNamed('/add-product');
+        },
+        tooltip: 'Add Product',
+        child: const Icon(Icons.add),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
@@ -84,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             header(),
             ProductListUI(
-              onRefresh: fetchProducts,
-              products: fetchProducts(),
+              onRefresh: onRefresh,
+              products: _products,
             )
           ],
         ),

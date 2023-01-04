@@ -29,81 +29,86 @@ class _LoginFormUIState extends State<LoginFormUI> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _emailController,
-              enabled: !widget.isLoading,
-              decoration: const InputDecoration(
-                labelText: 'Email',
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _emailController,
+                enabled: !widget.isLoading,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+
+                  if (!value.contains('@')) {
+                    return 'Please enter a valid email';
+                  }
+
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your email';
-                }
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _passwordController,
+                enabled: !widget.isLoading,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
 
-                if (!value.contains('@')) {
-                  return 'Please enter a valid email';
-                }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
 
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _passwordController,
-              enabled: !widget.isLoading,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your password';
-                }
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (widget.isLoading) return;
 
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    if (widget.isLoading) return;
-
-                    if (_formKey.currentState!.validate()) {
-                      widget.onSubmitted(
-                        _emailController.text,
-                        _passwordController.text,
-                      );
-                    }
-                  },
-                  child: widget.isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Login'),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/register');
-                  },
-                  child: const Text('Register'),
-                ),
-              ],
-            ),
-          ],
+                      if (_formKey.currentState!.validate()) {
+                        widget.onSubmitted(
+                          _emailController.text,
+                          _passwordController.text,
+                        );
+                      }
+                    },
+                    child: widget.isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text('Login'),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/register');
+                    },
+                    child: const Text('Register'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

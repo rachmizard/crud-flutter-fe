@@ -3,16 +3,16 @@ class ProductModel {
   String code;
   String name;
   int price;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   ProductModel({
     required this.id,
     required this.code,
     required this.name,
     required this.price,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -32,8 +32,8 @@ class ProductModel {
       'code': code,
       'name': name,
       'price': price,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 }

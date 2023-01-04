@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,15 +35,23 @@ class RequestAdapterService {
     return response;
   }
 
-  Future<http.Response> sendPutRequest(
-      String url, Map<String, dynamic>? body) async {
-    final response = await _httpClient.put(Uri.http(baseURL, url), body: body);
+  Future<http.Response> sendPutRequest(String url, {Map? body}) async {
+    final token = await interceptToken();
+
+    final response = await _httpClient.put(Uri.http(baseURL, url),
+        body: body, headers: {'Authorization': token});
+
     return response;
   }
 
-  Future<http.Response> sendDeleteRequest(
-      String url, Map<String, dynamic>? params) async {
-    final response = await _httpClient.delete(Uri.http(baseURL, url, params));
+  Future<http.Response> sendDeleteRequest(String url,
+      {Map<String, dynamic>? params}) async {
+    final token = await interceptToken();
+    final response =
+        await _httpClient.delete(Uri.http(baseURL, url, params), headers: {
+      HttpHeaders.authorizationHeader: token,
+    });
+
     return response;
   }
 }
