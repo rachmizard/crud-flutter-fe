@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product_model.dart';
 import 'package:frontend/services/product_service.dart';
-import 'package:frontend/ui/product/edit_form_ui.dart';
+import 'package:frontend/ui/product/form_ui.dart';
 
 class ProductDetailUI extends StatelessWidget {
   final int? productId;
@@ -14,20 +14,11 @@ class ProductDetailUI extends StatelessWidget {
     final snackbar = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
 
-    Future<void> onSubmit({
-      name = '',
-      price = 0,
-      code = '',
-    }) async {
+    Future<void> onSubmit(ProductModel values) async {
       try {
         await productService.updateProduct(
           productId!,
-          ProductModel(
-            id: productId!,
-            name: name,
-            price: price,
-            code: code,
-          ),
+          values,
         );
 
         snackbar.showSnackBar(
@@ -63,7 +54,11 @@ class ProductDetailUI extends StatelessWidget {
                   return Text(snapshot.error.toString());
                 }
 
-                return ProductEditFormUI(
+                if (snapshot.data == null) {
+                  return const Text('Product not found');
+                }
+
+                return ProductFormUI(
                   product: snapshot.data,
                   onSubmit: onSubmit,
                 );

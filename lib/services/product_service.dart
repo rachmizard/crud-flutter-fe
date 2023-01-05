@@ -39,36 +39,21 @@ class ProductService extends RequestAdapterService {
     return product;
   }
 
-  Future<ProductModel> createProduct({
-    required String name,
-    required int price,
-    required String code,
-  }) async {
-    final response = await sendPostRequest(
+  Future<void> createProduct(ProductModel product) async {
+    await sendPostRequest(
       '/api/products',
       body: {
-        'name': name,
-        'price': price,
-        'code': code,
+        'name': product.name.toString(),
+        'price': product.price.toString(),
+        'code': product.code.toString(),
       },
     );
 
-    if (response.statusCode != 200) {
-      return BaseResponse.fromJson(jsonDecode(response.body)).data ??
-          ProductModel(
-            code: '',
-            name: '',
-            price: 0,
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-            id: 0,
-          );
-    }
+    // print("Response: ${response.body}");
 
-    final data = jsonDecode(response.body)['data'] as Map<String, dynamic>;
-    final product = ProductModel.fromJson(data);
-
-    return product;
+    // if (response.statusCode != 200) {
+    //   return Future.error(jsonDecode(response.body)['message'].toString());
+    // }
   }
 
   Future<void> updateProduct(id, ProductModel payload) async {

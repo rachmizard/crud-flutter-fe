@@ -1,5 +1,5 @@
 class BaseResponse<T> {
-  bool? status;
+  dynamic status;
   int? code;
   T? data;
   String? message;

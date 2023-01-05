@@ -1,5 +1,5 @@
 class ProductModel {
-  int id;
+  int? id;
   String code;
   String name;
   int price;
@@ -7,7 +7,7 @@ class ProductModel {
   DateTime? updatedAt;
 
   ProductModel({
-    required this.id,
+    this.id,
     required this.code,
     required this.name,
     required this.price,

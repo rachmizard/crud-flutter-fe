@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Future<void> onRefresh() async {
       try {
-        fetchProducts();
+        await fetchProducts();
       } catch (e) {
         snackbar.showSnackBar(
           SnackBar(

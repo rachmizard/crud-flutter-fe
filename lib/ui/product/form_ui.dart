@@ -3,21 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product_model.dart';
 
-class ProductEditFormUI extends StatefulWidget {
+class ProductFormUI extends StatefulWidget {
   final ProductModel? product;
-  Function({
-    String name,
-    int price,
-    String code,
-  }) onSubmit;
+  Function(ProductModel values) onSubmit;
 
-  ProductEditFormUI({super.key, this.product, required this.onSubmit});
+  String? submitLabel;
+
+  ProductFormUI(
+      {super.key, this.product, required this.onSubmit, this.submitLabel});
 
   @override
-  State<ProductEditFormUI> createState() => _ProductEditFormUIState();
+  State<ProductFormUI> createState() => _ProductFormUIState();
 }
 
-class _ProductEditFormUIState extends State<ProductEditFormUI> {
+class _ProductFormUIState extends State<ProductFormUI> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -107,13 +106,15 @@ class _ProductEditFormUIState extends State<ProductEditFormUI> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         widget.onSubmit(
-                          name: _nameController.text,
-                          price: int.parse(_priceController.text),
-                          code: _codeController.text,
+                          ProductModel(
+                            name: _nameController.text,
+                            price: int.parse(_priceController.text).toInt(),
+                            code: _codeController.text,
+                          ),
                         );
                       }
                     },
-                    child: const Text('Update Product'),
+                    child: Text(widget.submitLabel ?? 'Submit'),
                   ),
                 ],
               ),
