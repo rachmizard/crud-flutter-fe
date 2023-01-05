@@ -41,8 +41,6 @@ class ProductDetailUI extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Text('Detail Product $productId'),
-          const SizedBox(height: 16),
           FutureBuilder<ProductModel>(
               future: productService.getProductById(id: productId),
               builder: (context, snapshot) {

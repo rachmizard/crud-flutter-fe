@@ -27,6 +27,7 @@ class AddProductScreen extends StatelessWidget {
             content: Text("Product added"),
           ),
         );
+
         navigator.pop();
       } catch (e) {
         snackbar.showSnackBar(

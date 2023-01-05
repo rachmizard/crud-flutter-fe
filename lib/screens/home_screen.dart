@@ -1,57 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product_model.dart';
 import 'package:frontend/services/product_service.dart';
 import 'package:frontend/stores/auth_store.dart';
 import 'package:frontend/stores/profile_store.dart';
 import 'package:frontend/ui/product/list_ui.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   final productService = ProductService();
-
-  Future<List<ProductModel>> _products = Future.value([]);
-
-  @override
-  void initState() {
-    super.initState();
-    fetchProducts();
-  }
-
-  fetchProducts() async {
-    var products = await productService.getProducts();
-
-    setState(() {
-      _products = Future.value(products);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final authStore = context.read<AuthStore>();
     final profileStore = context.watch<ProfileStore>();
 
-    final snackbar = ScaffoldMessenger.of(context);
-
     final navigator = Navigator.of(context);
-
-    Future<void> onRefresh() async {
-      try {
-        await fetchProducts();
-      } catch (e) {
-        snackbar.showSnackBar(
-          SnackBar(
-            content: Text(e.toString()),
-          ),
-        );
-      }
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -95,10 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            ProductListUI(
-              onRefresh: onRefresh,
-              products: _products,
-            )
+            const ProductListUI()
           ],
         ),
       ),

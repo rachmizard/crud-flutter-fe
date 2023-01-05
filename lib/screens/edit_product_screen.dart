@@ -17,12 +17,12 @@ class EditProductScreen extends StatelessWidget {
     onDelete() async {
       try {
         await productService.deleteProduct(id);
-        navigator.pop();
         snackbar.showSnackBar(
           const SnackBar(
             content: Text('Product deleted'),
           ),
         );
+        navigator.pop();
       } catch (e) {
         snackbar.showSnackBar(
           const SnackBar(
@@ -58,7 +58,7 @@ class EditProductScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Product'),
+        title: const Text('Edit Product'),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),
