@@ -53,26 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
 
-    Widget header() {
-      return Column(children: [
-        Row(
-          children: [
-            const Text(
-              'Welcome back, ',
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              profileStore.user?.name ?? '',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-      ]);
-    }
-
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -99,7 +79,22 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            header(),
+            Row(
+              children: [
+                const Text(
+                  'Welcome back, ',
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  profileStore.user?.name ?? '',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             ProductListUI(
               onRefresh: onRefresh,
               products: _products,
