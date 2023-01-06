@@ -22,13 +22,14 @@ class EditProductScreen extends StatelessWidget {
             content: Text('Product deleted'),
           ),
         );
-        navigator.pop();
       } catch (e) {
         snackbar.showSnackBar(
           const SnackBar(
             content: Text('Failed to delete product'),
           ),
         );
+      } finally {
+        navigator.pop();
       }
     }
 

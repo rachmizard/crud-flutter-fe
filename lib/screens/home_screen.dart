@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
             Row(
               children: [
                 const Text(
-                  'Welcome back, ',
+                  'WELCOME BACK, ',
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
